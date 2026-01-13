@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block contents %}
+{% load static %}
+ <div
+      class="hero page-inner overlay"
+      style="background-image: url({% static 'images/hero_bg_3.jpg' %})"
+    >
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-9 text-center mt-5">
+            <h1 class="heading" data-aos="fade-up">
+              Wishlist
+            </h1>
+
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="row d-flex container" style="margin:150px;">
+    {% for i in wish %}
+<div class="card m-3 col-6" style="width: 350px;">
+                  <img src="{{i.property.image.url}}" class="card-img-top" style="height: 200px; object-fit: cover;" />
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="fa-solid fa-indian-rupee-sign"></i>{{i.property.price}}</h5>
+                    <p class="card-text"><b>{{i.property.title}}</b> -{{i.property.location}}</p>
+                    {% if i.property.requirement == 'for sale' %}
+                    <p class="card-text"><b>{{i.property.property_type}}</b>&mdash;<span class="badge rounded-pill bg-success">{{i.property.requirement}}</span></p>
+                    {% else %}
+                    <p class="card-text"><b>{{i.property.property_type}}</b>&mdash;<span class="badge rounded-pill bg-warning">{{i.property.requirement}}</span></p>
+                    {% endif %}
+                    <a href="{% url 'listing:propertydetail' i.property.id %}" class="btn btn-primary">See details</a>
+                      </div>
+            </div>
+    {% empty %}
+        <h3 class="d-flex justify-content-center text-danger">Oops... your wishlist is empty!</h3>
+    {% endfor %}
+    </div>
+{% endblock %}

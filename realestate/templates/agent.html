@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block contents %}
+{% load static %}
+ <div
+      class="hero page-inner overlay"
+      style="background-image: url({% static 'images/hero_bg_3.jpg' %})"
+    >
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-9 text-center mt-5">
+            <h1 class="heading" data-aos="fade-up">
+              Our Agents
+            </h1>
+
+            <nav
+              aria-label="breadcrumb"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <ol class="breadcrumb text-center justify-content-center">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item">
+                  <a href="properties.html">Real Estate Agents</a>
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="row container">
+{% for i in profile %}
+    {% if i.role == 'agent' %}
+<div class="card my-3 mx-3 border-0 shadow rounded-4 overflow-hidden" style="max-width: 540px;">
+  <div class="row g-0">
+    <!-- Image Side -->
+    <div class="col-md-4">
+      <img src="{{ i.profile_picture.url }}"
+           class="img-fluid h-100 w-100 object-fit-cover"
+           alt="{{ i.user.first_name }}"
+           style="min-height: 100%; object-fit: cover;">
+    </div>
+
+    <!-- Content Side -->
+    <div class="col-md-8 d-flex align-items-center">
+      <div class="card-body">
+        <h5 class="card-title fw-bold">{{ i.user.first_name }}</h5>
+        <p class="card-text"><i class="bi bi-geo-alt me-2"></i>{{ i.address }}</p>
+        <p class="card-text"><small class="text-muted"><i class="bi bi-telephone me-2"></i>{{ i.phone }}</small></p>
+        <a href="#" class="btn btn-primary">Know more</a>
+      </div>
+    </div>
+  </div>
+</div>
+    {% endif %}
+{% endfor %}
+    </div>
+{% endblock %}

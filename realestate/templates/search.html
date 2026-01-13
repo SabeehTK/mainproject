@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block contents %}
+{% load static %}
+  <div
+      class="hero page-inner overlay"
+      style="background-image: url('{% static 'images/hero_bg_1.jpg' %}')"
+    >
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-9 text-center mt-5">
+            <h1 class="heading" data-aos="fade-up">Search</h1>
+
+            <nav
+              aria-label="breadcrumb"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <ol class="breadcrumb text-center justify-content-center">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li
+                  class="breadcrumb-item active text-white-50"
+                  aria-current="page"
+                >
+                  Search
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="row d-flex container" style="margin:150px;">
+<h3>You have searched for <span class="bg-warning">{{query}}</span>:-</h3>
+    {% for i in p %}
+  <div class="card m-3 col-6" style="width: 350px;">
+                  <img src="{{i.image.url}}" class="card-img-top" style="height: 200px; object-fit: cover;" />
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="fa-solid fa-indian-rupee-sign"></i>{{i.price}}</h5>
+                    <p class="card-text"><b>{{i.title}}</b> -{{i.location}}</p>
+                    {% if i.requirement == 'for sale' %}
+                    <p class="card-text"><b>{{i.property_type}}</b>&mdash;<span class="badge rounded-pill bg-success">{{i.requirement}}</span></p>
+                    {% else %}
+                    <p class="card-text"><b>{{i.property_type}}</b>&mdash;<span class="badge rounded-pill bg-warning">{{i.requirement}}</span></p>
+                    {% endif %}
+                    <a href="{% url 'listing:propertydetail' i.id %}" class="btn btn-primary">See details</a>
+                      {% if user.is_authenticated %}
+                      {% if user.profile.role == 'agent' %}
+                    <a type="button" href="{% url 'listing:editproperty' i.id %}" style="padding: 4px 8px; font-size: 14px;" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'listing:deleteproperty' i.id %}" class="btn btn-danger" style="padding: 4px 8px; font-size: 14px;">Delete</a>
+                    {% endif %}
+                    {% endif %}
+              </div>
+            </div>
+    {% empty %}
+    <h3 class="d-flex justify-content-center text-danger">No Results</h3>
+    {% endfor %}
+            </div>
+{% endblock %}

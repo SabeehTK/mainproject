@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block contents %}
+{% load static %}
+ <div
+      class="hero page-inner overlay"
+      style="background-image: url({% static 'images/hero_bg_3.jpg' %})"
+    >
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-9 text-center mt-5">
+            <h1 class="heading" data-aos="fade-up">
+              {{property.title}}
+            </h1>
+
+            <nav
+              aria-label="breadcrumb"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <ol class="breadcrumb text-center justify-content-center">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item">
+                  <a href="properties.html">Properties</a>
+                </li>
+                <li
+                  class="breadcrumb-item active text-white-50"
+                  aria-current="page"
+                >
+                  {{property.title}}
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col-lg-7">
+            <div class="img-property-slide-wrap">
+              <div class="img-property-slide">
+                <img src="{{property.image.url}}" alt="Image" class="img-fluid" />
+<!--                <img src="images/img_2.jpg" alt="Image" class="img-fluid" />-->
+<!--                <img src="images/img_3.jpg" alt="Image" class="img-fluid" />-->
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <h2 class="heading text-primary">{{property.title}}</h2>
+            <p class="meta">{{property.location}}</p>
+            <p class="text-black-50">
+              {{property.description}}
+            </p>
+            {% if user.profile.role == 'buyer' %}
+            {% if in_wishlist %}
+              <a href="{% url 'listing:removewishlist' property.id %}" class="btn btn-primary">Remove from Wishlist&nbsp<i class="fa-solid fa-heart-crack text-danger"></i></a>
+            {% else %}
+                <a href="{% url 'listing:addwishlist' property.id %}" class="btn btn-primary">Add to Wishlist&nbsp<i class="fa-solid fa-heart text-danger"></i></a>
+            {% endif %}
+<!--            {% else %}-->
+<!--            <a type="button" href="{% url 'listing:editproperty' property.id %}" style="padding: 4px 8px; font-size: 14px;" class="btn btn-warning">Edit</a>-->
+<!--                    <a href="{% url 'listing:deleteproperty' property.id %}" class="btn btn-danger" style="padding: 4px 8px; font-size: 14px;">Delete</a>-->
+            {% endif %}
+            <div class="d-block agent-box p-5">
+              <div class="img mb-4">
+                <img
+                  src="{{property.owner.profile.profile_picture.url}}"
+                  alt="Image"
+                  class="img-fluid"
+                />
+              </div>
+              <div class="text">
+                <h3 class="mb-0">{{property.owner.first_name}}</h3>
+                <div class="meta mb-3">{{property.owner.profile.role}}</div>
+                <p>
+                  Wonderful Agent with many luxurious properties
+                </p>
+                <ul class="list-unstyled social dark-hover d-flex">
+                  <li class="me-1">
+                    <a href="#"><span class="icon-instagram"></span></a>
+                  </li>
+                  <li class="me-1">
+                    <a href="#"><span class="icon-twitter"></span></a>
+                  </li>
+                  <li class="me-1">
+                    <a href="#"><span class="icon-facebook"></span></a>
+                  </li>
+                  <li class="me-1">
+                    <a href="#"><span class="icon-linkedin"></span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
