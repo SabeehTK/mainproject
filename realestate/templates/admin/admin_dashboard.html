@@ -1,0 +1,166 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+        <main class="col-md-10 ms-sm-auto px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+                <div>
+                    <h1 class="h3 fw-bold">Overview</h1>
+                    <p class="text-muted small">Welcome back, Administrator.</p>
+                </div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="input-group me-3">
+                      <form action="{% url 'listing:search' %}" method="get" class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control border-start-0" name="q" placeholder="Search data...">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                      </form>
+                    </div>
+                    <a href="{% url 'listing:addproperty' %}" class="btn btn-primary shadow-sm">
+                        <i class="bi bi-plus-lg me-1"></i> New Property
+                    </a>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="card stat-card border-start border-primary border-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-uppercase text-muted small fw-bold">Properties</h6>
+                                    <h2 class="mb-0 fw-bold">{{ properties.count }}</h2>
+                                </div>
+                                <div class="bg-primary bg-opacity-10 p-3 rounded-circle">
+                                    <i class="bi bi-house text-primary fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card border-start border-success border-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-uppercase text-muted small fw-bold">Active Agents</h6>
+                                    <h2 class="mb-0 fw-bold">{{agent_count}}</h2>
+                                </div>
+                                <div class="bg-success bg-opacity-10 p-3 rounded-circle">
+                                    <i class="bi bi-person-check text-success fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card border-start border-info border-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-uppercase text-muted small fw-bold">Total Buyers</h6>
+                                    <h2 class="mb-0 fw-bold">{{buyer_count}}</h2>
+                                </div>
+                                <div class="bg-info bg-opacity-10 p-3 rounded-circle">
+                                    <i class="bi bi-people text-info fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card border-start border-warning border-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-uppercase text-muted small fw-bold">Pending Leads</h6>
+                                    <h2 class="mb-0 fw-bold">{{pendingenquiry_count}}</h2>
+                                </div>
+                                <div class="bg-warning bg-opacity-10 p-3 rounded-circle">
+                                    <i class="bi bi-envelope text-warning fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0">Property Inventory</h5>
+                    <button class="btn btn-sm btn-outline-secondary">Export CSV</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="border-0">Property Details</th>
+                                <th class="border-0">Owner</th>
+                                <th class="border-0">Price</th>
+                                <th class="border-0">Location</th>
+                                <th class="border-0 text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for property in properties %}
+                            <tr>
+                                <td>
+                                    <div class="fw-bold">{{ property.title }}</div>
+                                    <small class="text-muted">ID: #{{ property.id }}</small>
+                                </td>
+                                <td>{{property.owner.username}}</td>
+                                <td class="fw-semibold text-dark"><i class="fa-solid fa-indian-rupee-sign"></i>{{property.price}}</td>
+                                <td><i class="bi bi-geo-alt me-1 text-muted"></i>{{property.location}}</td>
+                                <td class="text-end">
+                                    <a href="{% url 'listing:propertydetail' property.id %}" class="btn btn-light btn-action text-info" title="View"><i class="bi bi-eye"></i></a>
+                                    <a href="{% url 'listing:editproperty' property.id %}" class="btn btn-light btn-action text-warning" title="Edit"><i class="bi bi-pencil"></i></a>
+                                    <a href="{% url 'listing:deleteproperty' property.id %}" class="btn btn-light btn-action text-danger" title="Delete"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="5" class="text-center py-4 text-muted">No properties found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <h5 class="fw-bold mb-4">Recent Enquiries</h5>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr class="small text-uppercase text-muted">
+                                <th>Buyer</th>
+                                <th>Enquiry For</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th class="text-end">Management</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for enquiry in enquiries %}
+                            <tr>
+                                <td><span class="fw-medium">{{ enquiry.buyer.username }}</span></td>
+                                <td>{{ enquiry.property.title }}</td>
+                                <td>{{ enquiry.date_added|date:"M d, Y" }}</td>
+                                <td>
+                                    <span class="badge rounded-pill badge-status
+                                        {% if enquiry.status == 'accepted' %}bg-success text-light
+                                        {% elif enquiry.status == 'rejected' %}bg-danger text-light
+                                        {% else %}bg-warning text-light{% endif %}">
+                                        {{ enquiry.status }}
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    <a href="{% url 'listing:enquiry' enquiry.id %}" class="btn btn-sm btn-outline-primary border-0">Process</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="5" class="text-center py-4 text-muted">No enquiries found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+{% endblock %}

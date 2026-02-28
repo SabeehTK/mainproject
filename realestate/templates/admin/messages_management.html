@@ -1,0 +1,70 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+<main class="col-md-10 ms-sm-auto px-md-4">
+    <div class="pt-4 px-2">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 fw-bold text-dark">Recent Messages</h1>
+                <p class="text-muted">Direct messages from users and agents.</p>
+            </div>
+            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
+                Total messages: {{ messages|length }}
+            </span>
+        </div>
+
+        <div class="row g-4">
+            {% for i in messages %}
+            <div class="col-md-4 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm rounded-4 msg-card border-start border-primary border-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar bg-light text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold me-2" style="width: 35px; height: 35px; font-size: 0.8rem;">
+                                {{ i.user|slice:":1"|upper }}
+                            </div>-
+                            <h6 class="card-title mb-0 fw-bold text-secondary">{{ i.user.profile.role }}</h6>
+                        </div>
+
+                        <h6 class="card-subtitle mb-2 text-primary small fw-semibold text-uppercase">
+                            {{ i.subject }}
+                        </h6>
+
+                        <p class="card-text text-muted small mb-4" style="line-height: 1.6;">
+                            "{{ i.message|truncatechars:120 }}"
+                        </p>
+
+                        <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
+                            <span class="text-muted" style="font-size: 0.7rem;">
+                                <i class="bi bi-clock me-1"></i>{{ i.created_at|date:"M d, Y" }}
+                            </span>
+                            <a href="#" class="btn btn-link btn-sm p-0 text-decoration-none fw-bold">View <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <i class="bi bi-envelope-x fs-1 text-light mb-3 d-block"></i>
+                <p class="text-muted">No messages found in your inbox.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+
+<style>
+    /* Styling to match your provided screenshot's card design */
+    .msg-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background-color: #ffffff;
+    }
+    .msg-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+    }
+    .border-primary {
+        border-color: #0d6efd !important; /* Matches your dashboard blue */
+    }
+</style>
+
+{% endblock %}

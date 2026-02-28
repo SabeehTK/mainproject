@@ -1,0 +1,58 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+<main class="col-md-10 ms-sm-auto px-md-4">
+    <div class="pt-4">
+  <div class="table-container">
+                <h5 class="fw-bold mb-4">Recent Enquiries</h5>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr class="small text-uppercase text-muted">
+                                <th>Buyer</th>
+                                <th>Enquiry For</th>
+                                <th>Agent</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th class="text-end">Management</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for enquiry in enquiries %}
+                            <tr>
+                                <td><span class="fw-medium">{{ enquiry.buyer.username }}</span></td>
+                                <td>{{ enquiry.property.title }}</td>
+                                <td>{{ enquiry.property.owner }}</td>
+                                <td>{{ enquiry.date_added|date:"M d, Y" }}</td>
+                                <td>
+                                    <span class="badge rounded-pill badge-status
+                                        {% if enquiry.status == 'accepted' %}bg-success text-light
+                                        {% elif enquiry.status == 'rejected' %}bg-danger text-light
+                                        {% else %}bg-warning text-light{% endif %}">
+                                        {{ enquiry.status }}
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    <a href="{% url 'listing:enquiry' enquiry.id %}" class="btn btn-sm btn-outline-primary border-0">Process</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="5" class="text-center py-4 text-muted">No enquiries found.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+</main>
+<style>
+    .table-container {
+        border: 1px solid #e2e8f0;
+    }
+    .table thead th {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+        color: #64748b;
+    }
+</style>
+{% endblock %}

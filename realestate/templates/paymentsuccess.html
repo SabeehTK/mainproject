@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block contents %}
+{% csrf_token %}
+<div class="text-center" style="margin-left:600px;margin:200px;">
+  <h1>Payment Successfull <span class="text-success"><i class="fa-solid fa-circle-check"></i></span></h1>
+  <a href="{% url 'index' %}" class="btn text-light mt-5" style="background-color:#003755;">Return to Home</a>
+</div>
+{% endblock %}

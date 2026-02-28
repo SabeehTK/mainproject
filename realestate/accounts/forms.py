@@ -3,6 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from accounts.models import Profile
 
+from accounts.models import EmailOTP
+
+
 class UserForm(UserCreationForm):
     rolechoices = [
         ('buyer', 'Buyer'),
@@ -29,3 +32,8 @@ class ProfileForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+class OtpLoginForm(forms.ModelForm):
+    class Meta:
+        model = EmailOTP
+        fields = ['user']

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block contents %}
+{% load static %}
+ <div
+      class="hero page-inner overlay"
+      style="background-image: url({% static 'images/hero_bg_3.jpg' %})"
+    >
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-9 text-center mt-5">
+            <h1 class="heading" data-aos="fade-up">
+                Enquiries
+            </h1>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<div class="row my-5 d-flex" style="margin-left:150px;">
+{% for i in enquiries %}
+<div class="card me-3 col-md-3 mb-5" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">{{i.property.title}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{i.buyer.username}}</h6>
+    <p class="card-text">{{i.message}}</p>
+    <small class="card-text">{{i.date_added}}</small>
+    <div class="my-3 me-3">
+      {% if i.is_advance_paid %}
+            <span class="badge bg-success px-3 py-2">Advance Paid</span>
+            <h6 class="mt-2 text-success">Buyer has paid the advance<i class="fa-solid fa-circle-check"></i>.</h6>
+      {% else %}
+      {% if i.status == 'accepted' %}
+      <div class="d-flex justify-content-center">
+      <span class="badge bg-secondary mx-auto" style="padding:10px 15px">Accepted</span>
+        </div>
+        {% if i.buyer_visited == True %}
+          {% if i.buyer_rejected == False %}
+          <a class="badge my-3 text-light bg-secondary" style="padding:10px 60px;">Payment request sent</a>
+          {% else %}
+          <a class="badge my-3 text-light bg-danger" style="padding:10px 20px;">Buyer Rejected for the payment</a>
+          {% endif %}
+        {% else %}
+          <a href="{% url 'listing:buyervisited' i.id %}" class="badge my-3 text-light" style="background-color:#383632;padding:10px 60px;">Mark as Buyer Visited</a>
+        {% endif %}
+      {% elif i.status == 'rejected' %}
+      <span class="badge" style="padding:10px 15px;background-color:red;">Rejected</span>
+      {% else %}
+      <a href="{% url 'listing:enquiryaccept' i.id %}" class="btn btn-success me-3 fs-6" style="padding: 4px 8px; font-size: 14px;">Accept</a>
+      <a href="{% url 'listing:enquiryreject' i.id %}" class="btn btn-danger fs-6" style="padding: 4px 8px; font-size: 14px;">Reject</a>
+      {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endfor %}
+  </div>
+{% endblock %}

@@ -22,5 +22,17 @@ urlpatterns = [
     path('wishlist',views.WishlistView.as_view(),name='wishlist'),
     path('removewishlist/<int:i>',views.RemoveWishlist.as_view(),name='removewishlist'),
     path('myproperty',views.MyPropertyView.as_view(),name='myproperty'),
+    path('enquiry/<int:i>',views.EnquiryView.as_view(),name='enquiry'),
+    path('enquiries',views.AgentEnquiryView.as_view(),name='enquiries'),
+    path('enquirydelete/<int:i>',views.DeleteEnquiryView.as_view(),name='deleteenquiry'),
+    path('buyerenquiries',views.BuyerEnquiryView.as_view(),name='buyerenquiries'),
+    path('enquiryaccept/<int:i>',views.EnquiryAcceptedView.as_view(),name='enquiryaccept'),
+    path('enquiryreject/<int:i>',views.EnquiryRejectedView.as_view(),name='enquiryreject'),
+    path('buyervisited/<int:i>',views.BuyerVisitedView.as_view(),name='buyervisited'),
+    path('advancepayment/<int:i>',views.AdvancePaymentView.as_view(),name='advancepayment'),
+    path('paymentsuccess',views.PaymentSuccessView.as_view(),name='paymentsuccess'),
+    path('paymentfailure',views.PaymentFailureView.as_view(),name='paymentfailure'),
+    path('buyeradvanceproperties',views.BuyerAdvancedPropertiesView.as_view(),name='buyeradvanceproperties'),
+    path('buyerrejected<int:i>',views.BuyerRejectedView.as_view(),name='buyerrejected'),
 
 ]

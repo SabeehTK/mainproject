@@ -2,18 +2,44 @@
 {% block contents %}
 {% load static %}
 <div class="hero">
-      <div class="hero-slide">
+<!--      <div class="hero-slide">-->
+<!--        <div-->
+<!--          class="img overlay"-->
+<!--          style="background-image: url('{% static 'images/hero_bg_3.jpg' %}')"-->
+<!--        ></div>-->
+<!--        <div-->
+<!--          class="img overlay"-->
+<!--          style="background-image: url('{%static 'images/hero_bg_2.jpg' %}')"-->
+<!--        ></div>-->
+<!--        <div-->
+<!--          class="img overlay"-->
+<!--          style="background-image: url('{% static 'images/hero_bg_1.jpg' %}')"-->
+<!--        ></div>-->
+<!--      </div>-->
+        <div class="hero-slide">
         <div
           class="img overlay"
-          style="background-image: url('{% static 'images/hero_bg_3.jpg' %}')"
+          style="background-image: url('{% static 'images/bg1.jpg' %}')"
         ></div>
         <div
           class="img overlay"
-          style="background-image: url('{%static 'images/hero_bg_2.jpg' %}')"
+          style="background-image: url('{%static 'images/bg2.jpg' %}')"
         ></div>
         <div
           class="img overlay"
-          style="background-image: url('{% static 'images/hero_bg_1.jpg' %}')"
+          style="background-image: url('{% static 'images/bg3.jpg' %}')"
+        ></div>
+            <div
+          class="img overlay"
+          style="background-image: url('{% static 'images/bg5.jpg' %}')"
+        ></div>
+            <div
+          class="img overlay"
+          style="background-image: url('{% static 'images/bg6.jpg' %}')"
+        ></div>
+            <div
+          class="img overlay"
+          style="background-image: url('{% static 'images/bg7.jpg' %}')"
         ></div>
       </div>
 
@@ -21,7 +47,7 @@
         <div class="row justify-content-center align-items-center">
           <div class="col-lg-9 text-center">
             <h1 class="heading" data-aos="fade-up">
-              Easiest way to find your dream home
+              Discover homes tailored to your lifestyle
             </h1>
             <form
               action="{% url 'listing:search' %}"
@@ -33,9 +59,9 @@
                 type="text"
                 name="q"
                 class="form-control px-4"
-                placeholder="Your ZIP code or City. e.g. New York"
+                placeholder="Your Property Name or City. e.g: 'New York' "
               />
-              <button type="submit" class="btn btn-primary">Search</button>
+              <button type="submit" class="btn" style="background-color:#003755;">Search</button>
             </form>
           </div>
         </div>
@@ -55,7 +81,8 @@
               <a
                 href="{% url 'listing:propertylist' %}"
                 target="_blank"
-                class="btn btn-primary text-white py-3 px-4"
+                class="btn text-white py-3 px-4"
+                style="background-color:#003755;"
                 >View all properties</a
               >
             </p>
@@ -67,27 +94,47 @@
             <div class="property-slider-wrap">
               <div class="property-slider">
                 <!-- .item -->
-                {% for i in property_list%}
-                <div class="card me-3" style="width: 350px;">
-                  <img src="{{i.image.url}}" class="card-img-top" style="height: 200px; object-fit: cover;" />
-                  <div class="card-body">
-                    <h5 class="card-title"><i class="fa-solid fa-indian-rupee-sign"></i>{{i.price}}</h5>
-                    <p class="card-text"><b>{{i.title}}</b> -{{i.location}}</p>
-                    {% if i.requirement == 'for sale' %}
-                    <p class="card-text"><b>{{i.property_type}}</b>&mdash;<span class="badge rounded-pill bg-success">{{i.requirement}}</span></p>
-                    {% else %}
-                    <p class="card-text"><b>{{i.property_type}}</b>&mdash;<span class="badge rounded-pill bg-warning">{{i.requirement}}</span></p>
-                    {% endif %}
-                    <a href="{% url 'listing:propertydetail' i.id %}" class="btn btn-primary">See details</a>
-<!--                    {% if user.is_authenticated %}-->
-<!--                      {% if user.profile.role == 'agent' %}-->
-<!--                    <a type="button" href="{% url 'listing:editproperty' i.id %}" style="padding: 4px 8px; font-size: 14px;" class="btn btn-warning">Edit</a>-->
-<!--                    <a href="{% url 'listing:deleteproperty' i.id %}" class="btn btn-danger" style="padding: 4px 8px; font-size: 14px;">Delete</a>-->
-<!--                    {% endif %}-->
-<!--                    {% endif %}-->
-              </div>
-            </div>
-                {% endfor %}
+               {% for i in property_list %}
+<div class="card property-item me-3" style="width: 350px;">
+  <div class="img-container">
+    <img src="{{i.image.url}}" class="card-img-top" style="height: 240px; object-fit: cover;" />
+    <div class="price-tag">
+      <i class="fa-solid fa-indian-rupee-sign me-1"></i>{{i.price}}
+    </div>
+  </div>
+
+  <div class="card-body p-4">
+    <div class="mb-2">
+      {% if i.requirement == 'for sale' %}
+        <span class="badge bg-success-light text-success px-3 py-2" style="background-color: #e8f5e9;">For Sale</span>
+      {% else %}
+        <span class="badge bg-warning-light text-warning px-3 py-2" style="background-color: #fff3e0;">For Rent</span>
+      {% endif %}
+      <span class="text-muted ms-2">{{i.property_type|title}}</span>
+    </div>
+
+    <h5 class="card-title font-weight-bold mb-1" style="color: #222;">{{i.title}}</h5>
+    <p class="text-muted mb-3"><i class="fa-solid fa-location-dot me-2"></i>{{i.location}}</p>
+
+<!--    <div class="property-specs d-flex justify-content-between">-->
+<!--       <span><i class="fa-solid fa-bed me-1"></i> 3 Beds</span>-->
+<!--       <span><i class="fa-solid fa-bath me-1"></i> 2 Baths</span>-->
+<!--       <span><i class="fa-solid fa-maximize me-1"></i> 1,200 sqft</span>-->
+<!--    </div>-->
+
+    <div class="mt-4 d-grid gap-2">
+      <a href="{% url 'listing:propertydetail' i.id %}" class="btn text-light py-2 shadow-sm" style="background-color:#003755;">View Details</a>
+
+<!--      {% if user.is_authenticated and user.profile.role == 'agent' %}-->
+<!--      <div class="d-flex gap-2">-->
+<!--        <a href="{% url 'listing:editproperty' i.id %}" class="btn btn-outline-warning btn-sm flex-fill">Edit</a>-->
+<!--        <a href="{% url 'listing:deleteproperty' i.id %}" class="btn btn-outline-danger btn-sm flex-fill">Delete</a>-->
+<!--      </div>-->
+<!--      {% endif %}-->
+    </div>
+  </div>
+</div>
+{% endfor %}
                 <!-- .item -->
 
                 <!-- .item -->
@@ -172,201 +219,193 @@
       </div>
     </section>
 
-    <div class="section sec-testimonials">
-      <div class="container">
-        <div class="row mb-5 align-items-center">
-          <div class="col-md-6">
-            <h2 class="font-weight-bold heading text-primary mb-4 mb-md-0">
-              Customer Says
-            </h2>
-          </div>
-          <div class="col-md-6 text-md-end">
-            <div id="testimonial-nav">
-              <span class="prev" data-controls="prev">Prev</span>
-
-              <span class="next" data-controls="next">Next</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-4"></div>
-        </div>
-        <div class="testimonial-slider-wrap">
-          <div class="testimonial-slider">
-            <div class="item">
-              <div class="testimonial">
-                <img
-                  src="{% static 'images/person_1-min.jpg' %}"
-                  alt="Image"
-                  class="img-fluid rounded-circle w-25 mb-4"
-                />
-                <div class="rate">
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                </div>
-                <h3 class="h5 text-primary mb-4">James Smith</h3>
-                <blockquote>
-                  <p>
-                    &ldquo;Far far away, behind the word mountains, far from the
-                    countries Vokalia and Consonantia, there live the blind
-                    texts. Separated they live in Bookmarksgrove right at the
-                    coast of the Semantics, a large language ocean.&rdquo;
-                  </p>
-                </blockquote>
-                <p class="text-black-50">Designer, Co-founder</p>
-              </div>
-            </div>
-
-            <div class="item">
-              <div class="testimonial">
-                <img
-                  src="{% static 'images/person_2-min.jpg' %}"
-                  alt="Image"
-                  class="img-fluid rounded-circle w-25 mb-4"
-                />
-                <div class="rate">
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                </div>
-                <h3 class="h5 text-primary mb-4">Mike Houston</h3>
-                <blockquote>
-                  <p>
-                    &ldquo;Far far away, behind the word mountains, far from the
-                    countries Vokalia and Consonantia, there live the blind
-                    texts. Separated they live in Bookmarksgrove right at the
-                    coast of the Semantics, a large language ocean.&rdquo;
-                  </p>
-                </blockquote>
-                <p class="text-black-50">Designer, Co-founder</p>
-              </div>
-            </div>
-
-            <div class="item">
-              <div class="testimonial">
-                <img
-                  src="{% static 'images/person_3-min.jpg' %}"
-                  alt="Image"
-                  class="img-fluid rounded-circle w-25 mb-4"
-                />
-                <div class="rate">
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                </div>
-                <h3 class="h5 text-primary mb-4">Cameron Webster</h3>
-                <blockquote>
-                  <p>
-                    &ldquo;Far far away, behind the word mountains, far from the
-                    countries Vokalia and Consonantia, there live the blind
-                    texts. Separated they live in Bookmarksgrove right at the
-                    coast of the Semantics, a large language ocean.&rdquo;
-                  </p>
-                </blockquote>
-                <p class="text-black-50">Designer, Co-founder</p>
-              </div>
-            </div>
-
-            <div class="item">
-              <div class="testimonial">
-                <img
-                  src="{% static 'images/person_4-min.jpg' %}"
-                  alt="Image"
-                  class="img-fluid rounded-circle w-25 mb-4"
-                />
-                <div class="rate">
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                  <span class="icon-star text-warning"></span>
-                </div>
-                <h3 class="h5 text-primary mb-4">Dave Smith</h3>
-                <blockquote>
-                  <p>
-                    &ldquo;Far far away, behind the word mountains, far from the
-                    countries Vokalia and Consonantia, there live the blind
-                    texts. Separated they live in Bookmarksgrove right at the
-                    coast of the Semantics, a large language ocean.&rdquo;
-                  </p>
-                </blockquote>
-                <p class="text-black-50">Designer, Co-founder</p>
-              </div>
-            </div>
-          </div>
+   <div class="section sec-testimonials bg-light">
+  <div class="container">
+    <div class="row mb-5 align-items-center">
+      <div class="col-md-6">
+        <h2 class="font-weight-bold heading text-primary mb-4 mb-md-0">
+          Client Success Stories
+        </h2>
+        <p class="text-muted">Helping families and investors find their perfect place to call home.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <div id="testimonial-nav">
+          <span class="prev btn btn-outline-primary rounded-pill px-3 py-1 me-2" data-controls="prev">
+            <i class="icon-arrow-left"></i> Prev
+          </span>
+          <span class="next btn btn-primary rounded-pill px-3 py-1" data-controls="next">
+            Next <i class="icon-arrow-right"></i>
+          </span>
         </div>
       </div>
     </div>
 
-    <div class="section section-4 bg-light">
-      <div class="container">
-        <div class="row justify-content-center text-center mb-5">
-          <div class="col-lg-5">
-            <h2 class="font-weight-bold heading text-primary mb-4">
-              Let's find home that's perfect for you
-            </h2>
-            <p class="text-black-50">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-              enim pariatur similique debitis vel nisi qui reprehenderit.
+    <div class="testimonial-slider-wrap">
+      <div class="testimonial-slider">
+
+        <div class="item">
+          <div class="testimonial bg-white p-4 shadow-sm rounded">
+            <img
+              src="{% static 'images/person_1-min.jpg' %}"
+              alt="James Smith"
+              class="img-fluid rounded-circle w-25 mb-4 border border-3 border-primary"
+            />
+            <div class="rate mb-3">
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+            </div>
+            <h3 class="h5 text-primary mb-2">James Smith</h3>
+            <p class="text-muted small mb-4">First-Time Homeowner</p>
+            <blockquote>
+              <p class="fst-italic text-secondary">
+                &ldquo;Finding my first home felt overwhelming until I used this platform. The search filters are incredibly precise, and the virtual tours saved me weeks of driving around!&rdquo;
+              </p>
+            </blockquote>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="testimonial bg-white p-4 shadow-sm rounded">
+            <img
+              src="{% static 'images/person_2-min.jpg' %}"
+              alt="Mike Houston"
+              class="img-fluid rounded-circle w-25 mb-4 border border-3 border-primary"
+            />
+            <div class="rate mb-3">
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+            </div>
+            <h3 class="h5 text-primary mb-2">Mike Houston</h3>
+            <p class="text-muted small mb-4">Property Seller</p>
+            <blockquote>
+              <p class="fst-italic text-secondary">
+                &ldquo;I listed my condo and had three serious offers within the first 48 hours. The dashboard makes managing inquiries and scheduling viewings remarkably simple.&rdquo;
+              </p>
+            </blockquote>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="testimonial bg-white p-4 shadow-sm rounded">
+            <img
+              src="{% static 'images/person_3-min.jpg' %}"
+              alt="Cameron Webster"
+              class="img-fluid rounded-circle w-25 mb-4 border border-3 border-primary"
+            />
+            <div class="rate mb-3">
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+            </div>
+            <h3 class="h5 text-primary mb-2">Cameron Webster</h3>
+            <p class="text-muted small mb-4">Real Estate Investor</p>
+            <blockquote>
+              <p class="fst-italic text-secondary">
+                &ldquo;The market data and property analytics provided here are the best in the industry. It’s my go-to tool for identifying high-yield rental opportunities.&rdquo;
+              </p>
+            </blockquote>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="testimonial bg-white p-4 shadow-sm rounded">
+            <img
+              src="{% static 'images/person_4-min.jpg' %}"
+              alt="Dave Smith"
+              class="img-fluid rounded-circle w-25 mb-4 border border-3 border-primary"
+            />
+            <div class="rate mb-3">
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+              <span class="icon-star text-warning small"></span>
+            </div>
+            <h3 class="h5 text-primary mb-2">Dave Smith</h3>
+            <p class="text-muted small mb-4">Licensed Realtor</p>
+            <blockquote>
+              <p class="fst-italic text-secondary">
+                &ldquo;As an agent, I need a platform that showcases my listings beautifully. This site provides the exposure and professional aesthetic my clients expect.&rdquo;
+              </p>
+            </blockquote>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section section-4 bg-light">
+  <div class="container">
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-lg-6">
+        <h2 class="font-weight-bold heading text-primary mb-4">
+          Find a Home That’s Perfectly You
+        </h2>
+        <p class="text-black-50 px-lg-5">
+          From sun-drenched modern lofts to quiet suburban retreats, we combine local expertise with data-driven insights to find your place in the world.
+        </p>
+      </div>
+    </div>
+    <div class="row justify-content-between align-items-center mb-5">
+      <div class="col-lg-7 mb-5 mb-lg-0 order-lg-2">
+        <div class="img-about dots shadow-lg rounded wake-btn">
+          <img src="{% static 'images/mp.jpg' %}" alt="Luxury Home Interior" class="img-fluid rounded" />
+        </div>
+      </div>
+      <div class="col-lg-4">
+
+  <div class="d-flex feature-h mb-4">
+  <span class="wrap-icon me-3 bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+    <span class="icon-home2 text-primary fs-4"></span>
+  </span>
+  <div class="feature-text">
+    <h3 class="heading h5 mb-2">2M+ Properties Sold</h3>
+    <p class="text-black-50 small">
+      A proven track record of matching thousands of families with their dream homes across the globe.
+    </p>
+  </div>
+</div>
+
+        <div class="d-flex feature-h mb-4">
+          <span class="wrap-icon me-3 bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+            <span class="icon-person text-primary fs-4"></span>
+          </span>
+          <div class="feature-text">
+            <h3 class="heading h5 mb-2">Elite Local Agents</h3>
+            <p class="text-black-50 small">
+              Work with the top 1% of industry professionals who live and breathe your target neighborhoods.
             </p>
           </div>
         </div>
-        <div class="row justify-content-between mb-5">
-          <div class="col-lg-7 mb-5 mb-lg-0 order-lg-2">
-            <div class="img-about dots">
-              <img src="{% static 'images/hero_bg_3.jpg' %}" alt="Image" class="img-fluid" />
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="d-flex feature-h">
-              <span class="wrap-icon me-3">
-                <span class="icon-home2"></span>
-              </span>
-              <div class="feature-text">
-                <h3 class="heading">2M Properties</h3>
-                <p class="text-black-50">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Nostrum iste.
-                </p>
-              </div>
-            </div>
 
-            <div class="d-flex feature-h">
-              <span class="wrap-icon me-3">
-                <span class="icon-person"></span>
-              </span>
-              <div class="feature-text">
-                <h3 class="heading">Top Rated Agents</h3>
-                <p class="text-black-50">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Nostrum iste.
-                </p>
-              </div>
-            </div>
-
-            <div class="d-flex feature-h">
-              <span class="wrap-icon me-3">
-                <span class="icon-security"></span>
-              </span>
-              <div class="feature-text">
-                <h3 class="heading">Legit Properties</h3>
-                <p class="text-black-50">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Nostrum iste.
-                </p>
-              </div>
-            </div>
+        <div class="d-flex feature-h mb-4">
+          <span class="wrap-icon me-3 bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+            <span class="icon-security text-primary fs-4"></span>
+          </span>
+          <div class="feature-text">
+            <h3 class="heading h5 mb-2">Secure Transactions</h3>
+            <p class="text-black-50 small">
+              Our end-to-end digital platform ensures your paperwork and payments are encrypted and hassle-free.
+            </p>
           </div>
         </div>
-        <div class="row section-counter mt-5">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+        <div class="row section-counter mt-5" style="margin-left:150px;">
           <div
             class="col-6 col-sm-6 col-md-6 col-lg-3"
             data-aos="fade-up"
@@ -427,7 +466,8 @@
             <a
               href="{% url 'accounts:register' %}"
               target="_blank"
-              class="btn btn-primary text-white py-3 px-4"
+              class="btn text-white py-3 px-4"
+              style="background-color:#003755;"
               >Apply for Real Estate agent</a
             >
           </p>
@@ -445,9 +485,7 @@
               Our Agents
             </h2>
             <p class="text-black-50">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-              enim pariatur similique debitis vel nisi qui reprehenderit totam?
-              Quod maiores.
+          Behind every successful property transaction is a skilled agent who understands the market and your needs. Explore our directory of certified professionals, each ready to guide you through buying, selling, or renting with confidence and expertise
             </p>
           </div>
         </div>

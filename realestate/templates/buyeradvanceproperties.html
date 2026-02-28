@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block contents %}
+<div class="row d-flex container" style="margin:150px;">
+{% for i in p %}
+  <div class="card m-3 col-6 wake-btn" style="width: 350px;">
+                  <img src="{{i.image.url}}" class="card-img-top" style="height: 200px; object-fit: cover;" />
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="fa-solid fa-indian-rupee-sign"></i>{{i.price}}</h5>
+                    <p class="card-text"><b>{{i.title}}</b> -{{i.location}}</p>
+                    {% if i.requirement == 'for sale' %}
+                    <p class="card-text"><b>{{i.property_type|title}}</b>&mdash;<span class="badge rounded-pill bg-success">{{i.requirement|title}}</span></p>
+                    {% else %}
+                    <p class="card-text"><b>{{i.property_type|title}}</b>&mdash;<span class="badge rounded-pill bg-warning">{{i.requirement|title}}</span></p>
+                    {% endif %}
+                    <a href="{% url 'listing:propertydetail' i.id %}" class="btn text-light" style="background-color:#003755;">See details</a>
+              </div>
+            </div>
+{% endfor %}
+    </div>
+{% endblock %}

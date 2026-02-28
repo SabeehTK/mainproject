@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LandOnHand | Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; color: #334155; }
+
+        /* Sidebar Styling */
+        .sidebar {
+            min-height: 100vh;
+            background: #1e293b;
+            color: #f8fafc;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+        }
+        .nav-link {
+            color: #94a3b8;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            margin: 0.2rem 1rem;
+            transition: all 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            background: #334155;
+            color: #fff;
+        }
+        .nav-link i { margin-right: 10px; }
+
+        /* Card & UI Styling */
+        .stat-card {
+            border: none;
+            border-radius: 12px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .table-container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .btn-action { padding: 0.25rem 0.6rem; font-size: 0.875rem; border-radius: 6px; }
+
+        /* Status Badges */
+        .badge-status { font-weight: 500; padding: 0.5em 0.8em; }
+    </style>
+<!--     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>-->
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block sidebar p-0">
+            <div class="p-4">
+                <h5 class="fw-bold text-white"><i class="bi bi-buildings-fill me-2"></i>LandOnHand</h5>
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" href="{% url 'accounts:admin_dashboard' %}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'propertymanagement' %}active{% endif %}" href="{% url 'accounts:propertymanagement' %}"><i class="bi bi-house-door"></i> Properties</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'agentmanagement' %}active{% endif %}" href="{% url 'accounts:agentmanagement' %}"><i class="bi bi-people"></i> Agents</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'buyermanagement' %}active{% endif %}" href="{% url 'accounts:buyermanagement' %}"><i class="bi bi-person-badge"></i> Buyers</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'enquirymanagement' %}active{% endif %}" href="{% url 'accounts:enquirymanagement' %}"><i class="bi bi-chat-left-dots"></i> Enquiries</a></li>
+                <hr class="mx-3 text-secondary">
+                <li class="nav-item"><a class="nav-link " href="#"><i class="bi bi-graph-up"></i> Reports</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'messagesmanagement' %}active{% endif %}" href="{% url 'accounts:messagesmanagement' %}"><span class="fs-5">📧</span> Messages</a></li>
+<!--                <li class="nav-item"><a class="nav-link " href="#"><i class="bi bi-gear"></i> Settings</a></li>-->
+            </ul>
+        </nav>
+        {% block content %}
+        {% endblock %}
+            </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -35,7 +35,7 @@
     <!-- End All Title Box -->
 <div class="border border-light mt-5 w-50 p-5 mx-auto">
 <h1 class="text-center ">Details</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token%}
         {{form|crispy}}
     <div>

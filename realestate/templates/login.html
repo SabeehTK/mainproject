@@ -40,10 +40,14 @@
         {% csrf_token%}
         {{loginform|crispy}}
     <div>
-        <input type="submit" class="btn btn-outline-secondary">
+        <input type="submit" class="btn btn-outline-light btn-danger">
 
     </div>
         </form>
+    <div class="text-center">
+        <a href="{% url 'accounts:loginviaotp' %}" class="btn btn-dark btn-outline-lioght">Login via OTP instead</a>
+    </div>
+
         {% if messages %}
 <ul class="messages mt-5">
     {% for message in messages %}

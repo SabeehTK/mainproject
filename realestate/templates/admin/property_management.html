@@ -1,0 +1,63 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+<main class="col-md-10 ms-sm-auto px-md-4">
+    <div class="pt-4">
+        <div class="table-container bg-white p-4 rounded-4 shadow-sm">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0">Property Inventory</h5>
+                <button class="btn btn-sm btn-outline-secondary">Export CSV</button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="border-0">Property Details</th>
+                            <th class="border-0">Owner</th>
+                            <th class="border-0">Price</th>
+                            <th class="border-0">Location</th>
+                            <th class="border-0 text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for property in properties %}
+                        <tr>
+                            <td>
+                                <div class="fw-bold text-dark">{{ property.title }}</div>
+                                <small class="text-muted">ID: #{{ property.id }}</small>
+                            </td>
+                            <td>{{ property.owner.username }}</td>
+                            <td class="fw-semibold text-dark">
+                                <i class="fa-solid fa-indian-rupee-sign small"></i> {{ property.price }}
+                            </td>
+                            <td><i class="bi bi-geo-alt me-1 text-muted"></i>{{ property.location }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'listing:propertydetail' property.id %}" class="btn btn-light btn-sm text-info mx-1" title="View"><i class="bi bi-eye"></i></a>
+                                <a href="{% url 'listing:editproperty' property.id %}" class="btn btn-light btn-sm text-warning mx-1" title="Edit"><i class="bi bi-pencil"></i></a>
+                                <a href="{% url 'listing:deleteproperty' property.id %}" class="btn btn-light btn-sm text-danger mx-1" title="Delete"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="5" class="text-center py-5 text-muted">No properties found.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+
+    .table-container {
+        border: 1px solid #e2e8f0;
+    }
+    .table thead th {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+        color: #64748b;
+    }
+</style>
+{% endblock %}

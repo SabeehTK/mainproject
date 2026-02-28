@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block contents %}
+{% load crispy_forms_tags %}
+<div class="border border-dark w-50 mb-3 p-5 mx-auto" style="margin-top:150px;">
+<h1 class="text-center ">Reject Enquiry for {{enquiry.property.title}}</h1>
+    <form method="post">
+        {% csrf_token%}
+        {{form|crispy}}
+    <div>
+        <input type="submit" class="btn btn-outline-danger">
+
+    </div>
+        </form>
+    </div>
+{% endblock %}

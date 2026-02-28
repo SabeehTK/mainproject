@@ -1,0 +1,21 @@
+{% extends 'base.html'%}
+{% block contents %}
+<div class="mx-auto border border-secondary w-25 mb-5 p-5" style="margin-top:150px;">
+  <h1 class="text-center ">Enter OTP</h1>
+  <form method="POST">
+    {% csrf_token%}
+    <div class="p-3">
+      <input type="text" placeholder="Enter OTP Here" name="o" class="form-control mb-5">
+      <input type="submit" class="btn btn-outline-light btn-success">
+       {% if messages %}
+<ul class="messages mt-5">
+    {% for message in messages %}
+    <li type="none" class="text-danger">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+    </div>
+  </form>
+
+</div>
+{% endblock%}

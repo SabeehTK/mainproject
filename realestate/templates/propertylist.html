@@ -2,17 +2,20 @@
 {% block contents %}
 <div class="row d-flex container" style="margin:150px;">
 {% for i in property_list %}
-  <div class="card m-3 col-6" style="width: 350px;">
+  <div class="card m-3 col-6 wake-btn" style="width: 350px;">
                   <img src="{{i.image.url}}" class="card-img-top" style="height: 200px; object-fit: cover;" />
                   <div class="card-body">
                     <h5 class="card-title"><i class="fa-solid fa-indian-rupee-sign"></i>{{i.price}}</h5>
                     <p class="card-text"><b>{{i.title}}</b> -{{i.location}}</p>
                     {% if i.requirement == 'for sale' %}
-                    <p class="card-text"><b>{{i.property_type}}</b>&mdash;<span class="badge rounded-pill bg-success">{{i.requirement}}</span></p>
+                    <p class="card-text"><b>{{i.property_type|title}}</b>&mdash;<span class="badge rounded-pill bg-success">{{i.requirement|title}}</span></p>
                     {% else %}
-                    <p class="card-text"><b>{{i.property_type}}</b>&mdash;<span class="badge rounded-pill bg-warning">{{i.requirement}}</span></p>
+                    <p class="card-text"><b>{{i.property_type|title}}</b>&mdash;<span class="badge rounded-pill bg-warning">{{i.requirement|title}}</span></p>
                     {% endif %}
-                    <a href="{% url 'listing:propertydetail' i.id %}" class="btn btn-primary">See details</a>
+                    <a href="{% url 'listing:propertydetail' i.id %}" class="btn text-light" style="background-color:#003755;">See details</a>
+                      {% if i.is_available == False %}
+                      <span class="badge bg-danger justify-content-end">Sold</span>
+                      {% endif %}
 <!--                      {% if user.is_authenticated %}-->
 <!--                      {% if user.profile.role == 'agent' %}-->
 <!--                    <a type="button" href="{% url 'listing:editproperty' i.id %}" style="padding: 4px 8px; font-size: 14px;" class="btn btn-warning">Edit</a>-->
