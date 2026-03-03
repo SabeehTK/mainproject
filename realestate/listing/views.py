@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 import razorpay
+from django.contrib import messages
 
 
 # Create your views here.
@@ -27,10 +28,13 @@ class PropertyListView(View):
 class PropertyDetailView(View):
     def get(self, request,pk):
         p=Property.objects.get(id=pk)
+        in_enquiry=False
         in_wishlist = False
+        in_rejected=False
         if request.user.is_authenticated:
             in_wishlist = Wishlist.objects.filter(user=request.user, property=p).exists()
-        context = {'property': p,'in_wishlist': in_wishlist}
+            in_enquiry = Enquiry.objects.filter(property=p,buyer=request.user,status__in=['accepted','pending'],buyer_rejected=False).exists()
+        context = {'property': p,'in_wishlist': in_wishlist,'in_enquiry':in_enquiry}
         return render(request, 'propertydetail.html',context)
 
 class PropertyForSaleView(View):
@@ -176,6 +180,16 @@ class EnquiryView(View):
             data=form.cleaned_data
             print(data)
             e.save()
+            send_mail(
+                subject=f"You have received an enquiry on {e.property.title}",
+                message=f"Dear {e.property.owner.username},\n\n"
+                        f"An enquiry for {e.property.title} has been received.\n"
+                        f"the enquiry has been received from {e.buyer}.\n\n"
+                        f"Message from buyer: {e.message}",
+                from_email=None,  # uses DEFAULT_FROM_EMAIL
+                recipient_list=[e.property.owner.email],
+                fail_silently=False,
+            )
             return redirect('listing:propertydetail',pk=p.id)
 
 #for admin:
@@ -199,7 +213,7 @@ class AgentEnquiryView(View):
 
 class BuyerEnquiryView(View):
     def get(self, request):
-        be=Enquiry.objects.filter(buyer=request.user,status__in=['pending','accepted'])
+        be=Enquiry.objects.filter(buyer=request.user,status__in=['pending','accepted'],buyer_rejected=False)
         context = {'be': be}
         return render(request, 'buyerenquirypage.html',context)
 
@@ -262,16 +276,23 @@ class BuyerVisitedView(View):
 
 class AdvancePaymentView(View):
     def get(self, request,i):
-        e=Enquiry.objects.get(id=i)
-        a=e.property.price
-        amount=0.1*a
-        client = razorpay.Client(auth=('rzp_test_Rn853YhSiRl2l7', 'UpKFAcdCLWN1ph277XjeDNcH'))
-        order=client.order.create({'amount':amount*100,'currency':'INR'})
-        print(order)
-        p=Payment.objects.create(enquiry=e,razorpay_order_id=order['id'],amount=amount,status='Created')
-        print(p)
-        context = {'payment':order}
-        return render(request,'payment.html',context)
+        try:
+            e=Enquiry.objects.get(id=i)
+            a=e.property.price
+            amount=0.1*a
+            if amount>500000:
+                amount=499999
+            client = razorpay.Client(auth=('rzp_test_Rn853YhSiRl2l7', 'UpKFAcdCLWN1ph277XjeDNcH'))
+            order=client.order.create({'amount':amount*100,'currency':'INR'})
+            print(order)
+            p=Payment.objects.create(enquiry=e,razorpay_order_id=order['id'],amount=amount,status='Created')
+            print(p)
+            context = {'payment':order}
+            return render(request,'payment.html',context)
+        except:
+            print('amount is high')
+            messages.error(request,'Advance payment exceeds the maximum allowed limit')
+            return redirect('listing:buyerenquiries')
 
 
 class PaymentSuccessView(View):

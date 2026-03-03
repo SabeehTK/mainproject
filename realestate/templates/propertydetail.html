@@ -37,10 +37,17 @@
           {% if property.is_available == False %}
             <h6 class="btn bg-danger text-light">Sorry, This Property has been sold</h6>
           {% else %}
-            <a href="{% url 'listing:enquiry' property.id %}"
+            {% if in_enquiry %}
+            <a href="#"
+             class="badge bg-success w-75 mb-2 d-block mx-auto" style="padding:10px 20px">
+             Enquiry has been sent
+            </a>
+            {% else %}
+              <a href="{% url 'listing:enquiry' property.id %}"
              class="btn btn-dark w-100 mb-2">
              Send Enquiry
             </a>
+            {% endif %}
 
               {% if in_wishlist %}
             <a href="{% url 'listing:removewishlist' property.id %}"

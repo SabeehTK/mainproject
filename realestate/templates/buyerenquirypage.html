@@ -24,6 +24,13 @@
             <h6 class="card-subtitle my-2 text-muted" style="font-size:13px">Agent have marked you have visited.what's your opinion,are you interested?</h6>
             <a href="{% url  'listing:advancepayment' i.id %}" class="btn text-light my-3" style="background-color:green;padding:4px 8px;font-size:14px;">Interested.pay advance.<i class="fa-regular fa-circle-check"></i></a><br>
             <a href="{% url 'listing:buyerrejected' i.id%}" class="btn btn-danger" style="padding:4px 8px;font-size:14px;">No,I'm not Interested<i class="fa-solid fa-circle-xmark"></i></a>
+               {% if messages %}
+<ul class="messages mt-5">
+    {% for message in messages %}
+    <li type="none" class="text-danger">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
             {% endif %}
 
           {% endif %}
