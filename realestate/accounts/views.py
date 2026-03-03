@@ -10,7 +10,7 @@ from accounts.models import EmailOTP,Profile
 from django.core.mail import send_mail
 
 from listing.models import Property, Enquiry
-
+from django.contrib.auth.decorators import login_required
 from accounts.models import Contact
 
 
@@ -112,6 +112,10 @@ class Registerview(View):
             profile.save()
             print(profile)
             return redirect('accounts:login')
+        else:
+            messages.error(request, "error, check your username and password")
+            context = {'registerform': user_form, 'profileform': profile_form}
+            return render(request,'register.html',context)
 
 class Loginview(View):
     def get(self, request):
@@ -158,6 +162,9 @@ class LoginViaOtp(View):
                 fail_silently=False,
             )
             u.save()
+            e=u.user.email
+            me=e[0:2]+'******'+e[-9:]
+            messages.success(request,f'Email has been sent to {me} successfully!')
             return redirect('accounts:otpverification')
 
 class OtpVerificationView(View):
@@ -190,7 +197,7 @@ class Logoutview(View):
         logout(request)
         return redirect('accounts:login')
 
-
+@method_decorator(login_required, name='dispatch')
 class ContactUsView(View):
     def get(self, request):
         return render(request,'contact.html')

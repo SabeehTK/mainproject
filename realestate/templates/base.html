@@ -250,7 +250,6 @@
   <a href="#" class="d-inline-flex align-items-center justify-content-center text-white text-decoration-none"
      style="width: 40px; height: 40px; border-radius: 8px; background-color: #6F6FA2;">
                 {{user.username|slice:":1"|upper}}
-<!--      <img src="{{user.profile.profile_picture.url}}" alt="profile" height="30px" width="30px">-->
   </a>
   <span class="ms-2 text-white">{{user.first_name}}<span class="badge ms-2" style="padding:10px 15px;{% if user.profile.role == 'buyer' %}background-color:#d9a109;{% else %}background-color:#56a873;{% endif %}">{{user.profile.role}}</span></span>
 </div>
